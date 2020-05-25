@@ -13,23 +13,21 @@ class PingPacket():
         countTo = (len(source_string)/2)*2
         count = 0
         while count<countTo:
-            #print(source_string[(count + 1):(count+2)],"+",source_string[count:(count+1)])
-            #thisVal = ord(str(source_string[count + 1]).strip())*256 + ord(str(source_string[count]).strip())
             thisVal = source_string[count + 1]*256 + source_string[count]
             sum = sum + thisVal
-            sum = sum & 0xffffffff # Necessary?
+            sum = sum & 0xffffffff 
             count = count + 2
  
         if countTo<len(source_string):
             sum = sum + ord(source_string[len(source_string) - 1])
-            sum = sum & 0xffffffff # Necessary?
+            sum = sum & 0xffffffff 
  
         sum = (sum >> 16)  +  (sum & 0xffff)
         sum = sum + (sum >> 16)
         answer = ~sum
         answer = answer & 0xffff
  
-        # Swap bytes. Bugger me if I know why.
+        
         answer = answer >> 8 | (answer << 8 & 0xff00)
  
         return answer
